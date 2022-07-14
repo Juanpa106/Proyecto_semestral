@@ -1,0 +1,30 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block contenido %}
+
+<div class="productos">
+    {% for aux in Listapi %}
+     <div class="text-center">
+        <br>
+          {%  if aux.url  %}
+          <img src="{{ aux.url }}" width="800" height="600">
+          {% endif %}
+          <div class="detalle">
+            <h5></h5>
+            <form action="" method="">
+                {% csrf_token %}
+                <input type="hidden" name="imagen_api" id="imagen_api" value="{{ aux.url }}">
+                <input type="submit" value="RESFRESCAR" class="btn btn-primary" >
+            </form>
+            
+          </div>
+    
+    
+    
+    
+    </div>
+    {% endfor %}
+    
+</div>
+
+{% endblock %}

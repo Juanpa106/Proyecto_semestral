@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+
+{% block contenido %}
+<br><br>
+{% load humanize %}
+<div class="card">
+    <div class="card-body">
+        <h2>Carrito</h2>
+        <hr>
+        <table class="table table-stripped table-hover table-responsive-sm">
+
+            <tr>
+
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Marca</th>
+                <th>cantidad</th>
+                <th>Imagen</th>
+        
+        
+            </tr>
+            {% for aux in ListaCarrito  %}
+            <tr>
+                <td>{{ aux.nombre_producto | title}}</td>
+                <td>${{ aux.precio_producto | intcomma}}</td>
+                <td> {{ aux.marca_producto }} </td>
+                <td>{{ aux.cantidad }}</td>
+                {% if aux.imagen_producto  %}
+                <td> <img src="{{ aux.imagen_producto.url }}" alt="" width="120" height="100"></td>
+                {% endif %}
+                <td>
+                    <a href="{% url 'eliminar_productcart' aux.id %}"  class="btn btn-danger btn-sm">eliminar</a>
+                </td>
+            </tr>
+            
+        
+            {% endfor %}
+            
+        </table>
+        <a href="{% url 'pago' %}" class="btn btn-primary">PAGAR</a>
+
+        
+    </div>
+</div>
+
+
+{% endblock %}
+

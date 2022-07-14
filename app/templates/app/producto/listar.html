@@ -1,0 +1,52 @@
+{% extends 'app/base.html' %}
+
+{% block contenido %}
+{% load humanize %}
+<br><br><br>
+<div class="card">
+    <div class="card-body">
+        <h2>Listado De Productos</h2>
+        <hr>
+        <table class="table table-stripped table-hover table-responsive-sm">
+
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Marca</th>
+                <th>Stock</th>
+                <th>Imagen</th>
+                <th>Opciones</th>
+        
+        
+        
+            </tr>
+            {% for aux in productos  %}
+            <tr>
+        
+                <td>{{ aux.nombre | title}}</td>
+                <td>${{ aux.precio | intcomma}}</td>
+                <td> {{ aux.marca }} </td>
+                <td>{{ aux.stock }}</td>
+                {% if aux.imagen  %}
+                <td> <img src="{{ aux.imagen.url }}" alt="" width="120" height="100"></td>
+                {% endif %}
+                <td>
+                    {% if perms.app.change_producto %}
+                    <a href="{% url 'modificar_producto' aux.id %}"  class="btn btn-info btn-sm">Modificar</a>
+                    {% endif %}
+
+                    {% if perms.app.delete_producto %}
+                    <a href="{% url 'eliminar_producto' aux.id %}"  class="btn btn-danger btn-sm">eliminar</a>
+                    {% endif %}
+                </td>
+            </tr>
+        
+            {% endfor %}
+        
+        </table>
+
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block contenido %}
+<br><br>
+<div class="slider">
+    <div>
+        <img src="{% static 'app/img/banner/banner_carrussel_1.jpg' %}" alt="">
+    </div>
+    <div>
+        <img src="{% static 'app/img/banner/banner_carrussel_2.png' %}" alt="">
+    </div>
+    <div>
+        <img src="{% static 'app/img/banner/banner_carrussel_3.jpg' %}" alt="">
+    </div>
+</div>
+{% load humanize %}
+<h2>Productos</h2>
+<div class="productos">
+{% for aux in ProductosTienda %}
+ <div class="producto">
+
+    <div class="contenedor_producto">
+      {%  if aux.imagen  %}
+      <img src="{{ aux.imagen.url }}" alt="imagen producto">
+      {% endif %}
+      <div class="detalle">
+        <h5>{{ aux.marca | capfirst}}</h5>
+        <h2>{{ aux.nombre | title}}</h2>
+        <h3>${{ aux.precio | intcomma }}</h3>
+        <h5>Stock: {{ aux.stock }}</h5>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="nombre_producto" id="nombre_producto" value="{{ aux.nombre }}">
+            <input type="hidden" name="marca_producto" id="marca_producto" value="{{ aux.marca }}">
+            <input type="hidden" name="precio_producto" id="precio_producto" value="{{ aux.precio }}">
+            <input type="hidden" name="imagen_producto" id="imagen_producto" value="{{ aux.imagen }}">
+            <input type="number" name="stock" id="stock"  min="1"  max="{{ aux.stock }}" value="{{ aux.cantidad }}">
+            {% if user.is_authenticated %}
+            <input type="submit" value="Comprar" class="btn btn-primary btn-sm ml-auto" >
+            {% endif %}
+        </form>
+        
+      </div>
+
+
+    </div>
+
+
+</div>
+{% endfor %}
+
+</div>
+
+
+<div class="productos">
+    {% for aux in ListaJson %}
+     <div class="producto">
+    
+        <div class="contenedor_producto">
+          {%  if aux.imagen  %}
+          <img src="{{ aux.imagen }}" alt="imagen producto">
+          {% endif %}
+          <div class="detalle">
+            <h5>{{ aux.marca | capfirst}}</h5>
+            <h2>{{ aux.nombre | title}}</h2>
+            <h3>${{ aux.precio | intcomma }}</h3>
+            <h5>Stock: {{ aux.stock }}</h5>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="nombre_producto" id="nombre_producto" value="{{ aux.nombre }}">
+                <input type="hidden" name="marca_producto" id="marca_producto" value="{{ aux.marca }}">
+                <input type="hidden" name="precio_producto" id="precio_producto" value="{{ aux.precio }}">
+                <input type="hidden" name="imagen_producto" id="imagen_producto" value="{{ aux.imagen }}">
+                <input type="hidden" name="stock_producto" id="stock_producto"  value="{{ aux.stock }}">
+                {% if user.is_authenticated %}
+                <input type="submit" value="Comprar" class="btn btn-primary btn-sm ml-auto" >
+                {% endif %}
+            </form>
+            
+          </div>
+    
+    
+        </div>
+    
+    
+    </div>
+    {% endfor %}
+    
+</div>
+
+
+
+
+
+{% endblock %}
